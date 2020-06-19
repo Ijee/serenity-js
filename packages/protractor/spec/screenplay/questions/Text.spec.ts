@@ -35,6 +35,7 @@ describe('Text', () => {
     describe('ofAll', () => {
 
         const Shopping_List_Items = Target.all('shopping list items').located(by.css('li'));
+        const Payment_Methods_Items = Target.all('Payment method items').located(by.css('select'));
 
         const testPage = pageFromTemplate(`
                 <html>
@@ -44,6 +45,13 @@ describe('Text', () => {
                         <li>milk</li>
                         <li>oats</li>
                     </ul>
+                    <select>
+                        <h1>Payment method</h1>
+                        <option>Please select...</option>
+                        <option>Credit card</option>
+                        <option>Pre-Paid card</option>
+                        <option>Other</option>
+                    </select>
                 </body>
                 </html>
             `);
@@ -62,6 +70,15 @@ describe('Text', () => {
             Navigate.to(testPage),
 
             Ensure.that(Text.ofAll(Shopping_List_Items).of(Target.the('body').located(by.tagName('body'))), equals(['milk', 'oats'])),
+        ));
+
+        /** @test {Text} */
+        /** @test {Text.ofAll} */
+        it('ensures that a question returns an array', () => actorCalled('Bernie').attemptsTo(
+            Navigate.to(testPage),
+
+            Ensure.that(Text.ofAll(Payment_Methods_Items).of(Target.the('body').located(by.tagName('body'))),
+                equals(['Please select...', 'Credit card', 'Pre-Paid card', 'Other'])),
         ));
 
         /** @test {Text} */
